@@ -18,6 +18,7 @@
       }
     },
 
+    //returns the entire set of rows
     rows: function() {
       return _(_.range(this.get('n'))).map(function(rowIndex) {
         return this.get(rowIndex);
@@ -62,28 +63,42 @@
     },
 
 
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
     \__ \ || (_| | |  | |_  | | | |  __/ | |  __/_
     |___/\__\__,_|_|   \__| |_| |_|\___|_|  \___(_)
 
- */
-    /*=========================================================================
-    =                 TODO: fill in these Helper Functions                    =
-    =========================================================================*/
+
+
+    ========================================================================= */
 
     // ROWS - run from left to right
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      const board = this.rows().slice();
+      const check = board[rowIndex];
+      let counter = 0;
+      for (let idx = 0; idx < check.length; idx++) {
+        check[idx] === 1 ? counter++ : counter;
+      }
+      return counter > 1;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
+      //invoke row and assign to var
+      const allRows = this.rows();
+      //iterate through all rows
+      for (let index = 0; index < allRows.length; index++) {
+        if (this.hasRowConflictAt(index)) {
+          return true;
+        }
+      }
+      //invoke hasRowConfictAt at current row and return if true
       return false; // fixme
     },
 
