@@ -149,7 +149,7 @@
       //initialize the position of the row number (always start at 0)
       let row = 0;
       //iterate over the rows 
-      for (var i = majorDiagonalColumnIndexAtFirstRow; i < checkArray.length; i++) {
+      for (let i = majorDiagonalColumnIndexAtFirstRow; i < checkArray.length; i++) {
         if (checkArray[row][i] === 1) {
           counter++;
           if (counter > 1) {
@@ -207,12 +207,62 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      const checkArray = this.rows();
+      //initialize a counter 
+      let counter = 0;
+      //initialize the position of the row number (always start at 0)
+      let row = 0;
+      //iterate over the rows 
+      for (let i = minorDiagonalColumnIndexAtFirstRow; i >= 0; i--) {
+        if (checkArray[row][i] === 1) {
+          counter++;
+          if (counter > 1) {
+            return true;
+          }
+        }
+        row++;
+      }
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+      const checkArray = this.rows();
+      let modArray = checkArray.slice();
+      for (let i = checkArray.length - 1; i >= 0; i--) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      modArray.splice(0, 1);
+      let bool = false;
+      const recursiveLeftOverConflictCheck = (modArray) => {
+        let c = modArray[0].length - 1;
+        let countCon = 0;
+        // debugger;
+        for (let r = 0; r < modArray.length; r++) {
+          if (modArray[r][c] === undefined) {
+            modArray.splice(0, 1);
+            if (modArray.length > 1) {
+              recursiveLeftOverConflictCheck(modArray);
+            }
+          }
+          console.log(modArray);
+          if (modArray[r][c] === 1) {
+            countCon++;
+          }
+          if (countCon > 1) {
+            bool = true;
+          }
+          c--;
+        }
+        modArray.splice(0, 1);
+        if (modArray.length > 1) {
+          recursiveLeftOverConflictCheck(modArray);
+        }
+        return bool;
+      };
+      return recursiveLeftOverConflictCheck(modArray);
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
