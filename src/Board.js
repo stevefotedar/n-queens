@@ -109,11 +109,29 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      //declare a const for invoking row 
+      const checkArray = this.rows();
+      //declare a counter const 
+      let counter = 0;
+      //iterate over all rows
+      for (let i = 0; i < checkArray.length; i++) {
+        if (checkArray[i][colIndex] === 1) {
+          counter++;
+        }
+      } 
+      return counter > 1;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      //declare a const for invoking rows at 0th index
+      const checkArray = this.rows()[0];
+      //iterate over the row 
+      for (var i = 0; i < checkArray.length; i++) {
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -124,12 +142,41 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      //declare a const for invoking rows 
+      const checkArray = this.rows();
+      //initialize a counter 
+      let counter = 0;
+      //initialize the position of the row number (always start at 0)
+      let row = 0;
+      //iterate over the rows 
+      for (var i = majorDiagonalColumnIndexAtFirstRow; i < checkArray.length; i++) {
+        if (checkArray[row][i] === 1) {
+          counter++;
+          if (counter > 1) {
+            return true;
+          }
+        }
+        row++;
+      }
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      const checkArray = this.rows();
+      //initialize counter 
+      //initialize row counter 
+      //initialize a slice counter 1
+      //define a function that takes in an array 
+      //iterate over row
+      //increment counter 
+      //if counter is greater than 1
+      //return true
+      //incremenr row counter
+      //if the slice counter is equal to the number of rows
+      //return false
+      //otherwise, we slice it 
+      //call the function again on the sliced array 
     },
 
 
