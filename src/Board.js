@@ -164,19 +164,40 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       const checkArray = this.rows();
-      //initialize counter 
-      //initialize row counter 
-      //initialize a slice counter 1
-      //define a function that takes in an array 
-      //iterate over row
-      //increment counter 
-      //if counter is greater than 1
-      //return true
-      //incremenr row counter
-      //if the slice counter is equal to the number of rows
-      //return false
-      //otherwise, we slice it 
-      //call the function again on the sliced array 
+      let modArray = checkArray.slice();
+      for (let i = 0; i < checkArray[0].length; i++) {
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      modArray.splice(0, 1);
+      const recursiveLeftOverConflictCheck = (modArray) => {
+        let r = 0;
+        let countCon = 0;
+        for (let c = 0; c < modArray.length; c++) {
+          if (modArray[r][c] === undefined) {
+            modArray.splice(0, 1);
+            if (modArray.length > 1) {
+              recursiveLeftOverConflictCheck(modArray);
+            } else {
+              return false;
+            }
+          }
+          if (modArray[r][c] === 1) {
+            countCon++;
+          }
+          if (countCon > 1) {
+            return true;
+          }
+          r++;
+        }
+        modArray.splice(0, 1);
+        if (modArray.length > 1) {
+          recursiveLeftOverConflictCheck(modArray);
+        }
+        return false;
+      };
+      return recursiveLeftOverConflictCheck(modArray);
     },
 
 
